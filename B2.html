@@ -1,0 +1,211 @@
+<HTML>
+ <HEAD>
+  <TITLE>B2</TITLE>
+ </HEAD>
+ <BODY onLoad="Load()">
+ <FONT FACE=VERDANA SIZE=2><B>B2</B><BR>
+	<IMG BORDER=1 STYLE="border-color:black" ID="animated_image"><BR>
+<FONT FACE=COURIER SIZE=2>
+<SPAN ID="frame_title" STYLE="position:relative;left:0;top:-15;color:black;background-color:white;padding:1px;border-width:1px;border-style:solid;border-color:black;display:inline;"></SPAN>
+&nbsp;</FONT><BR>
+  <BUTTON ID="btnToggle" onClick="start_stop()" onDblClick="start_stop()">Stop</BUTTON>&nbsp;
+<BUTTON ID="btnFirst" onClick="firstFrame()" onDblClick="firstFrame()" STYLE="width:35">&lt;&lt;</BUTTON>&nbsp;
+  <BUTTON ID="btnPrev" onClick="prevFrame()" onDblClick="prevFrame()" STYLE="width:35">&lt;</BUTTON>&nbsp;
+  <BUTTON ID="btnNext" onClick="nextFrame()" onDblClick="nextFrame()" STYLE="width:35">&gt;</BUTTON>&nbsp;
+  <BUTTON ID="btnLast" onClick="lastFrame()" onDblClick="lastFrame()" STYLE="width:35">&gt;&gt;</BUTTON>
+  <FONT SIZE=1>
+  <BR><BR>&nbsp;&nbsp;&nbsp;<INPUT ID="checkLoop"" TYPE="checkbox" style="width:13;height:13;">Loop continuously
+  <BR>&nbsp;&nbsp;&nbsp;<INPUT ID="checkCounter" TYPE="checkbox" CHECKED onClick="showCounter(this.checked)" style="width:13;height:13;">Show frame counter
+  </FONT>
+  <P>
+  <FONT COLOR=888888 SIZE=1>Animation created in <A TARGET=_blank HREF="http://www.rhino3d.com"><FONT COLOR=7777ff SIZE=1>Rhino</FONT></A>.</FONT>
+ </BODY>
+</HTML>
+
+<STYLE>
+  button {width:75;height:25;font-family:mssansserif;font-size:8pt}
+</STYLE>
+<SCRIPT LANGUAGE="JavaScript">
+  var FRAME_DELAY = 75;
+  var timeoutID;
+  var ImageCount = 60;
+  var Images = new Array();
+  for( i=0; i < ImageCount; i++ )
+  	Images[i] = new Image();
+
+  var currentImageIndex = 0;
+  var bDisplayDate = 0;
+  var Dates = new Array(0);
+Images[0].src = "B2_00000.jpg"
+Images[1].src = "B2_00001.jpg"
+Images[2].src = "B2_00002.jpg"
+Images[3].src = "B2_00003.jpg"
+Images[4].src = "B2_00004.jpg"
+Images[5].src = "B2_00005.jpg"
+Images[6].src = "B2_00006.jpg"
+Images[7].src = "B2_00007.jpg"
+Images[8].src = "B2_00008.jpg"
+Images[9].src = "B2_00009.jpg"
+Images[10].src = "B2_00010.jpg"
+Images[11].src = "B2_00011.jpg"
+Images[12].src = "B2_00012.jpg"
+Images[13].src = "B2_00013.jpg"
+Images[14].src = "B2_00014.jpg"
+Images[15].src = "B2_00015.jpg"
+Images[16].src = "B2_00016.jpg"
+Images[17].src = "B2_00017.jpg"
+Images[18].src = "B2_00018.jpg"
+Images[19].src = "B2_00019.jpg"
+Images[20].src = "B2_00020.jpg"
+Images[21].src = "B2_00021.jpg"
+Images[22].src = "B2_00022.jpg"
+Images[23].src = "B2_00023.jpg"
+Images[24].src = "B2_00024.jpg"
+Images[25].src = "B2_00025.jpg"
+Images[26].src = "B2_00026.jpg"
+Images[27].src = "B2_00027.jpg"
+Images[28].src = "B2_00028.jpg"
+Images[29].src = "B2_00029.jpg"
+Images[30].src = "B2_00030.jpg"
+Images[31].src = "B2_00031.jpg"
+Images[32].src = "B2_00032.jpg"
+Images[33].src = "B2_00033.jpg"
+Images[34].src = "B2_00034.jpg"
+Images[35].src = "B2_00035.jpg"
+Images[36].src = "B2_00036.jpg"
+Images[37].src = "B2_00037.jpg"
+Images[38].src = "B2_00038.jpg"
+Images[39].src = "B2_00039.jpg"
+Images[40].src = "B2_00040.jpg"
+Images[41].src = "B2_00041.jpg"
+Images[42].src = "B2_00042.jpg"
+Images[43].src = "B2_00043.jpg"
+Images[44].src = "B2_00044.jpg"
+Images[45].src = "B2_00045.jpg"
+Images[46].src = "B2_00046.jpg"
+Images[47].src = "B2_00047.jpg"
+Images[48].src = "B2_00048.jpg"
+Images[49].src = "B2_00049.jpg"
+Images[50].src = "B2_00050.jpg"
+Images[51].src = "B2_00051.jpg"
+Images[52].src = "B2_00052.jpg"
+Images[53].src = "B2_00053.jpg"
+Images[54].src = "B2_00054.jpg"
+Images[55].src = "B2_00055.jpg"
+Images[56].src = "B2_00056.jpg"
+Images[57].src = "B2_00057.jpg"
+Images[58].src = "B2_00058.jpg"
+Images[59].src = "B2_00059.jpg"
+
+
+
+  function Load() {
+    begin_animation();
+  }
+
+  function begin_animation() {
+    stop_animation();
+  	EnableCtrls("stop");
+  	run();
+        bRunning = true;
+  }
+
+  function stop_animation() {
+  	EnableCtrls("start");
+  	clearTimeout( timeoutID );
+        bRunning = false;
+  }
+
+  function start_stop() {
+    if (bRunning) {
+      stop_animation();
+    }
+    else {
+      begin_animation();
+    }
+  }
+
+  function run() {
+  	if (nextFrame())
+    	timeoutID = setTimeout( "run()", FRAME_DELAY );
+  }
+
+  function firstFrame() {
+	currentImageIndex = 0;
+  	document.all.animated_image.src = Images[currentImageIndex].src;
+  	DisplayCaption(currentImageIndex)
+  }
+
+  function prevFrame() {
+  	currentImageIndex--;
+  	if( currentImageIndex < 0 )
+  		currentImageIndex= Images.length - 1;
+  	document.all.animated_image.src = Images[currentImageIndex].src;
+  	DisplayCaption(currentImageIndex)
+  }
+
+  function nextFrame() {
+  	currentImageIndex++;
+  	bRetVal = true;
+  	if( currentImageIndex >= Images.length ) {
+  	  if (document.all('checkLoop').checked) {
+    		currentImageIndex = 0;
+  	  }
+  	  else {
+  	    stop_animation();
+  	    currentImageIndex = 0;
+  	    bRetVal = false;
+        return bRetVal;
+  	  }
+  	}
+  	document.all.animated_image.src = Images[currentImageIndex].src;
+  	DisplayCaption(currentImageIndex)
+  	return bRetVal;
+  }
+
+  function lastFrame() {
+	currentImageIndex = Images.length - 1;
+  	document.all.animated_image.src = Images[currentImageIndex].src;
+  	DisplayCaption(currentImageIndex)
+  }
+
+ function DisplayCaption(nFrameNumber) {
+	  document.all.frame_title.innerHTML =  (nFrameNumber + 1)
+ if (bDisplayDate) {
+    	document.all.frame_title.innerHTML = Dates[nFrameNumber];
+ }
+  }
+
+
+  function EnableCtrls(sCtl) {
+	if (sCtl == "stop") {
+		//document.all("btnStop").disabled = false;
+		//document.all("btnStart").disabled = true;
+
+		document.all("btnFirst").disabled = true; 
+		document.all("btnPrev").disabled = true; 
+		document.all("btnNext").disabled = true; 
+		document.all("btnLast").disabled = true; 
+                document.all("btnToggle").innerText = "Stop";
+	}
+	if (sCtl == "start") {
+		//document.all("btnStop").disabled = true; 
+		//document.all("btnStart").disabled = false;
+
+		document.all("btnFirst").disabled = false;
+		document.all("btnPrev").disabled = false;
+		document.all("btnNext").disabled = false;
+		document.all("btnLast").disabled = false;
+                document.all("btnToggle").innerText = "Start";
+	}
+  }
+
+  function showCounter(bShow) {
+    if (bShow) {
+      document.all('frame_title').style.display = "inline";
+    }
+    else {
+      document.all('frame_title').style.display = "none";
+    }
+  }
+</SCRIPT>
